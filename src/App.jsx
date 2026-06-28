@@ -21,13 +21,15 @@ import ClientProfile       from './pages/client/Profile'
 import InstitutionOverview     from './pages/institution/Overview'
 import InstitutionAppointments from './pages/institution/Appointments'
 import InstitutionQueue        from './pages/institution/QueueManagement'
-import InstitutionServices     from './pages/institution/Services'
-import InstitutionProfile      from './pages/institution/Profile'
+import InstitutionStaff        from './pages/institution/StaffManagement'
+import InstitutionReports      from './pages/institution/Reports'
+import InstitutionSettings     from './pages/institution/Settings'
 
 // Admin pages
 import AdminOverview     from './pages/admin/Overview'
-import AdminInstitutions from './pages/admin/Institutions'
 import AdminUsers        from './pages/admin/Users'
+import AdminInstitutions from './pages/admin/Institutions'
+import AdminAnalytics    from './pages/admin/Analytics'
 import AdminSettings     from './pages/admin/SystemSettings'
 
 // Route guard
@@ -49,36 +51,38 @@ function RootRedirect() {
 export default function App() {
   return (
     <Routes>
-      {/* Root redirect */}
+      {/* Root */}
       <Route path="/" element={<RootRedirect />} />
 
-      {/* Public pages */}
-      <Route path="/home"        element={<HomePage />} />
-      <Route path="/institutions"element={<ListingPage />} />
-      <Route path="/institutions/:id" element={<DetailsPage />} />
+      {/* Public */}
+      <Route path="/home"               element={<HomePage />} />
+      <Route path="/institutions"       element={<ListingPage />} />
+      <Route path="/institutions/:id"   element={<DetailsPage />} />
 
-      {/* Auth pages */}
-      <Route path="/login"          element={<LoginPage />} />
-      <Route path="/register"       element={<RegisterPage />} />
-      <Route path="/forgot-password"element={<ForgotPasswordPage />} />
+      {/* Auth */}
+      <Route path="/login"           element={<LoginPage />} />
+      <Route path="/register"        element={<RegisterPage />} />
+      <Route path="/forgot-password" element={<ForgotPasswordPage />} />
 
-      {/* Client dashboard */}
-      <Route path="/client/dashboard"    element={<PrivateRoute roles={['client']}><ClientDashboard /></PrivateRoute>} />
-      <Route path="/client/appointments" element={<PrivateRoute roles={['client']}><ClientAppointments /></PrivateRoute>} />
-      <Route path="/client/notifications"element={<PrivateRoute roles={['client']}><ClientNotifications /></PrivateRoute>} />
-      <Route path="/client/profile"      element={<PrivateRoute roles={['client']}><ClientProfile /></PrivateRoute>} />
+      {/* Client */}
+      <Route path="/client/dashboard"     element={<PrivateRoute roles={['client']}><ClientDashboard /></PrivateRoute>} />
+      <Route path="/client/appointments"  element={<PrivateRoute roles={['client']}><ClientAppointments /></PrivateRoute>} />
+      <Route path="/client/notifications" element={<PrivateRoute roles={['client']}><ClientNotifications /></PrivateRoute>} />
+      <Route path="/client/profile"       element={<PrivateRoute roles={['client']}><ClientProfile /></PrivateRoute>} />
 
-      {/* Institution dashboard */}
-      <Route path="/institution/overview"    element={<PrivateRoute roles={['institution_admin','staff']}><InstitutionOverview /></PrivateRoute>} />
-      <Route path="/institution/appointments"element={<PrivateRoute roles={['institution_admin','staff']}><InstitutionAppointments /></PrivateRoute>} />
-      <Route path="/institution/queue"       element={<PrivateRoute roles={['institution_admin','staff']}><InstitutionQueue /></PrivateRoute>} />
-      <Route path="/institution/services"    element={<PrivateRoute roles={['institution_admin']}><InstitutionServices /></PrivateRoute>} />
-      <Route path="/institution/profile"     element={<PrivateRoute roles={['institution_admin']}><InstitutionProfile /></PrivateRoute>} />
+      {/* Institution */}
+      <Route path="/institution/overview"     element={<PrivateRoute roles={['institution_admin','staff']}><InstitutionOverview /></PrivateRoute>} />
+      <Route path="/institution/appointments" element={<PrivateRoute roles={['institution_admin','staff']}><InstitutionAppointments /></PrivateRoute>} />
+      <Route path="/institution/queue"        element={<PrivateRoute roles={['institution_admin','staff']}><InstitutionQueue /></PrivateRoute>} />
+      <Route path="/institution/staff"        element={<PrivateRoute roles={['institution_admin']}><InstitutionStaff /></PrivateRoute>} />
+      <Route path="/institution/reports"      element={<PrivateRoute roles={['institution_admin']}><InstitutionReports /></PrivateRoute>} />
+      <Route path="/institution/settings"     element={<PrivateRoute roles={['institution_admin']}><InstitutionSettings /></PrivateRoute>} />
 
-      {/* Admin dashboard */}
+      {/* Admin */}
       <Route path="/admin/overview"     element={<PrivateRoute roles={['admin']}><AdminOverview /></PrivateRoute>} />
-      <Route path="/admin/institutions" element={<PrivateRoute roles={['admin']}><AdminInstitutions /></PrivateRoute>} />
       <Route path="/admin/users"        element={<PrivateRoute roles={['admin']}><AdminUsers /></PrivateRoute>} />
+      <Route path="/admin/institutions" element={<PrivateRoute roles={['admin']}><AdminInstitutions /></PrivateRoute>} />
+      <Route path="/admin/analytics"    element={<PrivateRoute roles={['admin']}><AdminAnalytics /></PrivateRoute>} />
       <Route path="/admin/settings"     element={<PrivateRoute roles={['admin']}><AdminSettings /></PrivateRoute>} />
 
       {/* Catch-all */}

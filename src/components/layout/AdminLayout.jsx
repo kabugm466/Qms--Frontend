@@ -2,10 +2,11 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 
 const NAV_ITEMS = [
-  { label: "Platform Overview", path: "/admin/overview", icon: "📊" },
-  { label: "Institutions",      path: "/admin/institutions", icon: "🌐" },
-  { label: "Users",             path: "/admin/users", icon: "👤" },
-  { label: "System Settings",   path: "/admin/settings", icon: "⚙️" },
+  { label: "Overview",          path: "/admin/overview",      icon: "📊" },
+  { label: "Users",             path: "/admin/users",         icon: "👥" },
+  { label: "Institutions",      path: "/admin/institutions",  icon: "🏢" },
+  { label: "Analytics",         path: "/admin/analytics",     icon: "📈" },
+  { label: "Platform Settings", path: "/admin/settings",      icon: "⚙️" },
 ];
 
 export default function AdminLayout({ children }) {
@@ -15,8 +16,8 @@ export default function AdminLayout({ children }) {
 
   return (
     <div className="flex h-screen overflow-hidden font-poppins">
-      {/* Sidebar — dark navy matching screenshot */}
-      <aside className="w-40 bg-gray-900 flex flex-col flex-shrink-0">
+      {/* Sidebar — dark bg matching screenshot */}
+      <aside className="w-44 bg-gray-900 flex flex-col flex-shrink-0">
         <div className="px-3 pt-4 pb-3 border-b border-white/10">
           <div className="flex items-center gap-1.5 mb-0.5">
             <div className="w-5 h-5 rounded-full border-2 border-green-brand flex items-center justify-center">
@@ -24,7 +25,19 @@ export default function AdminLayout({ children }) {
             </div>
             <span className="text-white font-bold text-xs tracking-wide">JIPANGE</span>
           </div>
-          <div className="text-gray-400 text-[10px]">System Admin Portal</div>
+          <div className="text-gray-400 text-[10px]">Admin Console</div>
+        </div>
+
+        {/* Admin identity */}
+        <div className="px-3 py-3 border-b border-white/10">
+          <div className="w-8 h-8 bg-navy rounded-full flex items-center justify-center text-white text-xs font-bold mb-1.5">
+            SA
+          </div>
+          <div className="text-white text-xs font-semibold">System Admin</div>
+          <div className="text-gray-400 text-[10px] mt-0.5">Super Administrator</div>
+          <div className="mt-1.5">
+            <span className="bg-gold-brand text-white text-[9px] font-semibold px-2 py-0.5 rounded-full">Admin</span>
+          </div>
         </div>
 
         <nav className="flex-1 py-3 px-2 space-y-0.5">
@@ -34,7 +47,7 @@ export default function AdminLayout({ children }) {
               <button
                 key={item.path}
                 onClick={() => navigate(item.path)}
-                className={`w-full flex items-center gap-2 px-2 py-2 rounded-lg text-xs transition-colors text-left
+                className={`w-full flex items-center gap-2 px-2 py-2.5 rounded-lg text-xs transition-colors text-left
                   ${active
                     ? "bg-white/10 text-white font-semibold border-l-4 border-green-brand pl-1"
                     : "text-gray-400 hover:bg-white/10 hover:text-white"
@@ -47,13 +60,20 @@ export default function AdminLayout({ children }) {
           })}
         </nav>
 
-        <div className="px-2 pb-4 border-t border-white/10 pt-3">
+        <div className="px-2 pb-4 border-t border-white/10 pt-3 space-y-1">
+          <button className="w-full flex items-center gap-2 px-2 py-1.5 text-xs text-gray-400 hover:text-white hover:bg-white/10 rounded-lg transition-colors">
+            📋 Activity Log
+          </button>
+          <button className="w-full flex items-center gap-2 px-2 py-1.5 text-xs text-gray-400 hover:text-white hover:bg-white/10 rounded-lg transition-colors">
+            📚 Documentation
+          </button>
           <button
             onClick={() => { logout(); navigate("/login"); }}
-            className="w-full flex items-center gap-2 px-2 py-2 text-xs text-red-400 hover:text-red-300 hover:bg-white/10 rounded-lg transition-colors"
+            className="w-full flex items-center gap-2 px-2 py-1.5 text-xs text-red-400 hover:text-red-300 hover:bg-white/10 rounded-lg transition-colors"
           >
             <span>→</span> Sign Out
           </button>
+          <div className="px-2 pt-2 text-[9px] text-gray-600">v1.0.0 · Production</div>
         </div>
       </aside>
 
@@ -66,12 +86,13 @@ export default function AdminLayout({ children }) {
               <span className="text-green-brand text-xs font-bold">✓</span>
             </div>
             <div>
-              <div className="text-navy font-bold text-xs tracking-wide leading-tight">System Admin</div>
+              <div className="text-navy font-bold text-sm tracking-wide leading-tight">JIPANGE</div>
+              <div className="text-gray-400 text-[10px] leading-tight">Admin Console</div>
             </div>
           </div>
 
           {/* Group switcher */}
-          <div className="flex items-center gap-1 text-xs">
+          <div className="flex items-center gap-1">
             {["Public Pages","Auth Pages","Client Dashboard","Institution Admin","System Admin"].map((tab) => {
               const isActive = tab === "System Admin";
               return (
@@ -83,7 +104,7 @@ export default function AdminLayout({ children }) {
                   onClick={() => {
                     if (tab === "Institution Admin") navigate("/institution/overview");
                     if (tab === "Client Dashboard") navigate("/client/dashboard");
-                    if (tab === "Public Pages") navigate("/");
+                    if (tab === "Public Pages") navigate("/home");
                     if (tab === "Auth Pages") navigate("/login");
                   }}
                 >
@@ -93,12 +114,18 @@ export default function AdminLayout({ children }) {
             })}
           </div>
 
-          <div className="flex items-center gap-2">
-            <div className="w-7 h-7 bg-navy rounded-full flex items-center justify-center text-white text-xs font-bold">
-              SA
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-1.5 text-xs text-green-600">
+              <span className="w-2 h-2 bg-green-500 rounded-full" />
+              All systems operational
             </div>
-            <span className="text-sm text-gray-700 font-medium">Super Admin</span>
-            <span className="text-gray-400 text-xs">▾</span>
+            <div className="flex items-center gap-2 cursor-pointer">
+              <div className="w-7 h-7 bg-navy rounded-full flex items-center justify-center text-white text-xs font-bold">
+                SA
+              </div>
+              <span className="text-sm text-gray-700 font-medium">System Admin</span>
+              <span className="text-gray-400 text-xs">▾</span>
+            </div>
           </div>
         </header>
 
