@@ -37,11 +37,7 @@ export default function LoginPage() {
     <div className="h-screen flex font-poppins overflow-hidden">
       {/* Left panel */}
       <div className="w-[45%] bg-navy flex flex-col items-center justify-center px-10 flex-shrink-0">
-        <div className="w-16 h-16 rounded-full border-2 border-green-brand flex items-center justify-center mb-5">
-          <span className="text-green-brand text-2xl">✓</span>
-        </div>
-        <div className="text-white font-bold text-2xl tracking-widest mb-1">JIPANGE</div>
-        <div className="text-gold-brand text-sm font-medium mb-8">Plan it. Show up. Get served.</div>
+        <img src="/logo.png" alt="JIPANGE" className="h-20 w-auto mb-5" />
         <div className="space-y-3 w-full max-w-xs mb-8">
           {['No more physical queues','Real-time appointment updates','Book any institution in seconds'].map(f => (
             <div key={f} className="flex items-center gap-3 text-sm text-blue-100">

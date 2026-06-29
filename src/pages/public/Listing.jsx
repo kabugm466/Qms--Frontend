@@ -15,12 +15,9 @@ function PublicNav() {
   const navigate = useNavigate()
   return (
     <nav className="bg-white border-b border-gray-200 px-8 h-14 flex items-center justify-between sticky top-0 z-10">
-      <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate('/home')}>
-        <div className="w-6 h-6 rounded-full border-2 border-green-brand flex items-center justify-center">
-          <span className="text-green-brand text-[10px] font-bold">✓</span>
+      <div className="flex items-center cursor-pointer" onClick={() => navigate('/home')}>
+          <img src="/logo.png" alt="JIPANGE" className="h-8 w-auto" />
         </div>
-        <span className="text-navy font-bold text-sm tracking-wide">JIPANGE</span>
-      </div>
       <div className="flex items-center gap-6 text-sm text-gray-600">
         <a className="hover:text-navy cursor-pointer" onClick={() => navigate('/home')}>Home</a>
         <a className="text-navy font-medium cursor-pointer">Institutions</a>

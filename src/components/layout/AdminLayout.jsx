@@ -81,14 +81,8 @@ export default function AdminLayout({ children }) {
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Topbar */}
         <header className="bg-white border-b border-gray-200 h-12 flex items-center justify-between px-5 flex-shrink-0">
-          <div className="flex items-center gap-2">
-            <div className="w-6 h-6 rounded-full border-2 border-green-brand flex items-center justify-center">
-              <span className="text-green-brand text-xs font-bold">✓</span>
-            </div>
-            <div>
-              <div className="text-navy font-bold text-sm tracking-wide leading-tight">JIPANGE</div>
-              <div className="text-gray-400 text-[10px] leading-tight">Admin Console</div>
-            </div>
+          <div className="flex items-center">
+            <img src="/logo.png" alt="JIPANGE" className="h-8 w-auto" />
           </div>
 
           {/* Group switcher */}

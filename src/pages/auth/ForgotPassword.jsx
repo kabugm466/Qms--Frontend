@@ -10,10 +10,7 @@ export default function ForgotPasswordPage() {
     <div className="min-h-screen bg-page font-poppins flex items-center justify-center px-4">
       <div className="w-full max-w-md bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
         <div className="flex flex-col items-center mb-6">
-          <div className="w-10 h-10 rounded-full border-2 border-green-brand flex items-center justify-center mb-3">
-            <span className="text-green-brand font-bold">✓</span>
-          </div>
-          <span className="text-navy font-bold text-base tracking-widest">JIPANGE</span>
+          <img src="/logo.png" alt="JIPANGE" className="h-14 w-auto mb-3" />
         </div>
 
         {!success ? (

@@ -81,11 +81,8 @@ export default function InstitutionLayout({ children }) {
         {/* Topbar */}
         <header className="bg-white border-b border-gray-200 h-12 flex items-center justify-between px-5 flex-shrink-0">
           {/* Logo */}
-          <div className="flex items-center gap-2">
-            <div className="w-6 h-6 rounded-full border-2 border-green-brand flex items-center justify-center">
-              <span className="text-green-brand text-xs font-bold">✓</span>
-            </div>
-            <span className="text-navy font-bold text-sm tracking-wide">JIPANGE</span>
+          <div className="flex items-center">
+            <img src="/logo.png" alt="JIPANGE" className="h-8 w-auto" />
           </div>
 
           {/* Group switcher */}

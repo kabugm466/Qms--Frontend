@@ -17,11 +17,8 @@ export default function HomePage() {
     <div className="min-h-screen bg-white font-poppins">
       {/* Navbar */}
       <nav className="bg-white border-b border-gray-200 px-8 h-14 flex items-center justify-between sticky top-0 z-10">
-        <div className="flex items-center gap-2">
-          <div className="w-6 h-6 rounded-full border-2 border-green-brand flex items-center justify-center">
-            <span className="text-green-brand text-[10px] font-bold">✓</span>
-          </div>
-          <span className="text-navy font-bold text-sm tracking-wide">JIPANGE</span>
+        <div className="flex items-center cursor-pointer" onClick={() => navigate('/home')}>
+          <img src="/logo.png" alt="JIPANGE" className="h-8 w-auto" />
         </div>
         <div className="flex items-center gap-6 text-sm text-gray-600">
           <a className="hover:text-navy cursor-pointer">Home</a>
@@ -135,12 +132,7 @@ export default function HomePage() {
       <footer className="bg-gray-900 py-8 px-8">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
           <div>
-            <div className="flex items-center gap-2 mb-1">
-              <div className="w-5 h-5 rounded-full border-2 border-green-brand flex items-center justify-center">
-                <span className="text-green-brand text-[9px] font-bold">✓</span>
-              </div>
-              <span className="text-white font-bold text-sm">JIPANGE</span>
-            </div>
+            <img src="/logo.png" alt="JIPANGE" className="h-8 w-auto mb-1" />
             <p className="text-gray-500 text-xs">Plan it. Show up. Get served.</p>
           </div>
           <div className="flex gap-5 text-xs text-gray-400">
