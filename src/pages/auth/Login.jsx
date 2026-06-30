@@ -26,8 +26,24 @@ export default function LoginPage() {
       } else if (email === 'client@jipange.co.ke') {
         login({ name:'Brian Otieno', role:'client', email }, 'demo-token')
         navigate('/client/dashboard')
+      } else if (email === 'staff@jipange.co.ke') {
+        login({
+          name:'Nurse Akinyi', role:'staff', email,
+          institution:'City General Hospital',
+          assignedService:'General Consultation',
+          accessLevel:'Manage Appointments',
+        }, 'demo-token')
+        navigate('/staff/dashboard')
+      } else if (email === 'staff-view@jipange.co.ke') {
+        login({
+          name:'Mr. Hassan', role:'staff', email,
+          institution:'City General Hospital',
+          assignedService:'Pharmacy Collection',
+          accessLevel:'View Only',
+        }, 'demo-token')
+        navigate('/staff/dashboard')
       } else {
-        setError('Invalid email or password. Try: admin@, institution@, or client@jipange.co.ke')
+        setError('Invalid email or password. Try: admin@, institution@, staff@, or client@jipange.co.ke')
       }
       setLoading(false)
     }, 600)
@@ -98,7 +114,9 @@ export default function LoginPage() {
 
           <div className="mt-6 p-3 bg-blue-50 rounded-lg text-[11px] text-blue-600">
             <strong>Demo logins:</strong><br/>
-            admin@jipange.co.ke · institution@jipange.co.ke · client@jipange.co.ke<br/>
+            admin@jipange.co.ke · institution@jipange.co.ke<br/>
+            staff@jipange.co.ke (manage) · staff-view@jipange.co.ke (view only)<br/>
+            client@jipange.co.ke<br/>
             (any password)
           </div>
         </div>

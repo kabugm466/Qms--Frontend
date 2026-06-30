@@ -21,7 +21,7 @@ export default function PrivateRoute({ children, roles }) {
     const redirectMap = {
       admin: '/admin/overview',
       institution_admin: '/institution/overview',
-      staff: '/institution/overview',
+      staff: '/staff/dashboard',
       client: '/client/dashboard',
     }
     return <Navigate to={redirectMap[user.role] || '/login'} replace />
