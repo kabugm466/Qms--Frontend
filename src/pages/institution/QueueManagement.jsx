@@ -60,7 +60,7 @@ export default function QueueManagement() {
         </div>
 
         {/* Kanban columns */}
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           {queues.map((q, idx) => (
             <div key={q.service} className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
               {/* Column header */}

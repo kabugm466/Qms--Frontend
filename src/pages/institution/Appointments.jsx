@@ -1,5 +1,6 @@
 import { useState } from "react";
 import InstitutionLayout from "../../components/layout/InstitutionLayout";
+import EmptyState from "../../components/common/EmptyState";
 
 const APPTS = [
   { initials:"AW", color:"bg-blue-500",   name:"Amina Wanjiku",   phone:"+254 712 111 001", service:"General Consultation", duration:"30 min", date:"27 Jun", time:"9:00 AM",  bookedOn:"2 days ago", status:"approved"  },
@@ -70,63 +71,75 @@ export default function InstitutionAppointments() {
 
         {/* Table */}
         <div className="card overflow-hidden">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="border-b border-gray-100 bg-gray-50">
-                <th className="px-3 py-3 text-left"><input type="checkbox" className="rounded" /></th>
-                <th className="px-2 py-3 text-left text-xs font-medium text-gray-400">#</th>
-                <th className="px-3 py-3 text-left text-xs font-medium text-gray-400">Client</th>
-                <th className="px-3 py-3 text-left text-xs font-medium text-gray-400">Service</th>
-                <th className="px-3 py-3 text-left text-xs font-medium text-gray-400">Date &amp; Time</th>
-                <th className="px-3 py-3 text-left text-xs font-medium text-gray-400">Booked On</th>
-                <th className="px-3 py-3 text-left text-xs font-medium text-gray-400">Status</th>
-                <th className="px-3 py-3 text-left text-xs font-medium text-gray-400">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filtered.map((a, i) => (
-                <tr key={i} className="border-b border-gray-50 hover:bg-gray-50 transition-colors">
-                  <td className="px-3 py-3"><input type="checkbox" className="rounded" /></td>
-                  <td className="px-2 py-3 text-xs text-gray-400">{i+1}</td>
-                  <td className="px-3 py-3">
-                    <div className="flex items-center gap-2">
-                      <div className={`w-7 h-7 ${a.color} rounded-full flex items-center justify-center text-white text-[10px] font-bold flex-shrink-0`}>{a.initials}</div>
-                      <div>
-                        <div className="text-sm font-medium text-gray-800">{a.name}</div>
-                        <div className="text-[11px] text-gray-400">{a.phone}</div>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="px-3 py-3">
-                    <div className="text-sm text-gray-700">{a.service}</div>
-                    <div className="text-[11px] text-green-brand">{a.duration}</div>
-                  </td>
-                  <td className="px-3 py-3">
-                    <div className="text-sm font-medium text-gray-800">{a.date}</div>
-                    <div className="text-[11px] text-gray-400">{a.time}</div>
-                  </td>
-                  <td className="px-3 py-3 text-xs text-gray-500">{a.bookedOn}</td>
-                  <td className="px-3 py-3"><span className={BADGE[a.status]}>{a.status.charAt(0).toUpperCase()+a.status.slice(1)}</span></td>
-                  <td className="px-3 py-3">
-                    <div className="flex items-center gap-1">
-                      {a.status === "pending" && <>
-                        <button className="w-6 h-6 bg-green-50 text-green-600 border border-green-200 rounded flex items-center justify-center text-xs hover:bg-green-100">✓</button>
-                        <button className="w-6 h-6 bg-red-50 text-red-500 border border-red-200 rounded flex items-center justify-center text-xs hover:bg-red-100">✕</button>
-                      </>}
-                      <button className="w-6 h-6 bg-blue-50 text-blue-400 border border-blue-100 rounded flex items-center justify-center text-xs hover:bg-blue-100">↺</button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <div className="px-4 py-3 border-t border-gray-100 flex items-center justify-between">
-            <span className="text-xs text-gray-500">Page 1 of 2 · 18 results</span>
-            <div className="flex gap-2">
-              <button className="btn-secondary text-xs px-3 py-1.5">Prev</button>
-              <button className="btn-secondary text-xs px-3 py-1.5">Next</button>
-            </div>
-          </div>
+          {filtered.length === 0 ? (
+            <EmptyState
+              icon="📋"
+              title="No appointments found"
+              message={search ? `No results matching "${search}". Try a different search or filter.` : "No appointments match the selected filter."}
+            />
+          ) : (
+            <>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b border-gray-100 bg-gray-50">
+                    <th className="px-3 py-3 text-left"><input type="checkbox" className="rounded" /></th>
+                    <th className="px-2 py-3 text-left text-xs font-medium text-gray-400">#</th>
+                    <th className="px-3 py-3 text-left text-xs font-medium text-gray-400">Client</th>
+                    <th className="px-3 py-3 text-left text-xs font-medium text-gray-400">Service</th>
+                    <th className="px-3 py-3 text-left text-xs font-medium text-gray-400">Date &amp; Time</th>
+                    <th className="px-3 py-3 text-left text-xs font-medium text-gray-400">Booked On</th>
+                    <th className="px-3 py-3 text-left text-xs font-medium text-gray-400">Status</th>
+                    <th className="px-3 py-3 text-left text-xs font-medium text-gray-400">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filtered.map((a, i) => (
+                    <tr key={i} className="border-b border-gray-50 hover:bg-gray-50 transition-colors">
+                      <td className="px-3 py-3"><input type="checkbox" className="rounded" /></td>
+                      <td className="px-2 py-3 text-xs text-gray-400">{i+1}</td>
+                      <td className="px-3 py-3">
+                        <div className="flex items-center gap-2">
+                          <div className={`w-7 h-7 ${a.color} rounded-full flex items-center justify-center text-white text-[10px] font-bold flex-shrink-0`}>{a.initials}</div>
+                          <div>
+                            <div className="text-sm font-medium text-gray-800">{a.name}</div>
+                            <div className="text-[11px] text-gray-400">{a.phone}</div>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="px-3 py-3">
+                        <div className="text-sm text-gray-700">{a.service}</div>
+                        <div className="text-[11px] text-green-brand">{a.duration}</div>
+                      </td>
+                      <td className="px-3 py-3">
+                        <div className="text-sm font-medium text-gray-800">{a.date}</div>
+                        <div className="text-[11px] text-gray-400">{a.time}</div>
+                      </td>
+                      <td className="px-3 py-3 text-xs text-gray-500">{a.bookedOn}</td>
+                      <td className="px-3 py-3"><span className={BADGE[a.status]}>{a.status.charAt(0).toUpperCase()+a.status.slice(1)}</span></td>
+                      <td className="px-3 py-3">
+                        <div className="flex items-center gap-1">
+                          {a.status === "pending" && <>
+                            <button className="w-6 h-6 bg-green-50 text-green-600 border border-green-200 rounded flex items-center justify-center text-xs hover:bg-green-100">✓</button>
+                            <button className="w-6 h-6 bg-red-50 text-red-500 border border-red-200 rounded flex items-center justify-center text-xs hover:bg-red-100">✕</button>
+                          </>}
+                          <button className="w-6 h-6 bg-blue-50 text-blue-400 border border-blue-100 rounded flex items-center justify-center text-xs hover:bg-blue-100">↺</button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              </div>
+              <div className="px-4 py-3 border-t border-gray-100 flex items-center justify-between">
+                <span className="text-xs text-gray-500">Page 1 of 2 · 18 results</span>
+                <div className="flex gap-2">
+                  <button className="btn-secondary text-xs px-3 py-1.5">Prev</button>
+                  <button className="btn-secondary text-xs px-3 py-1.5">Next</button>
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </InstitutionLayout>

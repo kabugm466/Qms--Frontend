@@ -36,7 +36,7 @@ function GeneralTab() {
   const set = k => e => setForm(f => ({ ...f, [k]: e.target.value }))
 
   return (
-    <div className="grid grid-cols-3 gap-5">
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
       {/* Form */}
       <div className="col-span-2 card p-5">
         <h3 className="text-sm font-semibold text-gray-800 mb-4">Platform Configuration</h3>
@@ -355,7 +355,7 @@ function AnnouncementsTab() {
             <label className="block text-xs font-medium text-gray-600 mb-1">Message</label>
             <textarea className="input resize-none" rows={3} placeholder="Announcement message..." value={form.msg} onChange={set('msg')} />
           </div>
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div>
               <label className="block text-xs font-medium text-gray-600 mb-1">Audience</label>
               <select className="input" value={form.audience} onChange={set('audience')}>

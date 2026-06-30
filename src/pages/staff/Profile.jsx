@@ -20,7 +20,7 @@ export default function StaffProfile() {
       <div className="p-6">
         <h1 className="text-xl font-semibold text-navy mb-5">Profile &amp; Settings</h1>
 
-        <div className="grid grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
           <div className="col-span-2 card p-5">
             <div className="flex items-center gap-4 mb-5">
               <div className="w-14 h-14 bg-green-brand rounded-full flex items-center justify-center text-white text-lg font-bold">

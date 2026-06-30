@@ -38,6 +38,9 @@ import AdminInstitutions from './pages/admin/Institutions'
 import AdminAnalytics    from './pages/admin/Analytics'
 import AdminSettings     from './pages/admin/SystemSettings'
 
+// Error pages
+import NotFound from './pages/error/NotFound'
+
 // Route guard
 import PrivateRoute from './components/common/PrivateRoute'
 
@@ -97,8 +100,8 @@ export default function App() {
       <Route path="/admin/analytics"    element={<PrivateRoute roles={['admin']}><AdminAnalytics /></PrivateRoute>} />
       <Route path="/admin/settings"     element={<PrivateRoute roles={['admin']}><AdminSettings /></PrivateRoute>} />
 
-      {/* Catch-all */}
-      <Route path="*" element={<Navigate to="/login" replace />} />
+      {/* 404 — catch-all */}
+      <Route path="*" element={<NotFound />} />
     </Routes>
   )
 }

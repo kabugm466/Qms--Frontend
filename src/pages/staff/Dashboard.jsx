@@ -45,7 +45,7 @@ export default function StaffDashboard() {
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-3 gap-4 mb-5">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4 mb-5">
           {[
             { label: "Now Serving", value: "Amina Wanjiku", icon: "▶", border: "border-l-green-brand" },
             { label: "Waiting",     value: "3",              icon: "⏳", border: "border-l-yellow-400" },
@@ -71,7 +71,8 @@ export default function StaffDashboard() {
               <button className="btn-primary text-xs px-4 py-1.5">Call Next →</button>
             )}
           </div>
-          <table className="w-full text-sm">
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-gray-100">
                 {["#", "Client", "Time", "Status", allowed ? "Actions" : ""].map(h => (
@@ -99,6 +100,7 @@ export default function StaffDashboard() {
               ))}
             </tbody>
           </table>
+          </div>
         </div>
 
         <button

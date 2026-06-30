@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import ClientLayout from '../../components/layout/ClientLayout'
+import EmptyState from '../../components/common/EmptyState'
 
 const ALL = [
   { institution:'City General Hospital', service:'General Consultation', date:'Jun 28, 9:00 AM',  bookedOn:'Jun 20, 2024', status:'approved'  },
@@ -51,40 +52,52 @@ export default function ClientAppointments() {
 
         {/* Table */}
         <div className="card overflow-hidden">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="border-b border-gray-100 bg-gray-50">
-                {['Institution','Service','Date & Time','Booked On','Status','Actions'].map(h => (
-                  <th key={h} className="text-left px-4 py-3 text-xs font-medium text-gray-500">{h}</th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {filtered.map((a, i) => (
-                <tr key={i} className="border-b border-gray-50 hover:bg-gray-50 transition-colors">
-                  <td className="px-4 py-3 font-medium text-gray-800">{a.institution}</td>
-                  <td className="px-4 py-3 text-gray-600">{a.service}</td>
-                  <td className="px-4 py-3 text-gray-600">{a.date}</td>
-                  <td className="px-4 py-3 text-gray-500">{a.bookedOn}</td>
-                  <td className="px-4 py-3"><span className={BADGE[a.status]}>{a.status.charAt(0).toUpperCase()+a.status.slice(1)}</span></td>
-                  <td className="px-4 py-3">
-                    <div className="flex items-center gap-2">
-                      <button className="text-blue-400 hover:text-blue-600 text-base" title="View">👁</button>
-                      {(a.status === 'approved' || a.status === 'pending') &&
-                        <button className="text-red-300 hover:text-red-500 text-base" title="Cancel">✕</button>}
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <div className="px-4 py-3 border-t border-gray-100 flex items-center justify-between">
-            <span className="text-xs text-gray-500">Page 1 of 3 · 24 results</span>
-            <div className="flex gap-2">
-              <button className="btn-secondary text-xs px-3 py-1.5">← Prev</button>
-              <button className="btn-secondary text-xs px-3 py-1.5">Next →</button>
-            </div>
-          </div>
+          {filtered.length === 0 ? (
+            <EmptyState
+              icon="📅"
+              title="No appointments found"
+              message={search ? `No results matching "${search}". Try a different search term.` : "You haven't booked any appointments yet."}
+            />
+          ) : (
+            <>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b border-gray-100 bg-gray-50">
+                    {['Institution','Service','Date & Time','Booked On','Status','Actions'].map(h => (
+                      <th key={h} className="text-left px-4 py-3 text-xs font-medium text-gray-500">{h}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {filtered.map((a, i) => (
+                    <tr key={i} className="border-b border-gray-50 hover:bg-gray-50 transition-colors">
+                      <td className="px-4 py-3 font-medium text-gray-800">{a.institution}</td>
+                      <td className="px-4 py-3 text-gray-600">{a.service}</td>
+                      <td className="px-4 py-3 text-gray-600">{a.date}</td>
+                      <td className="px-4 py-3 text-gray-500">{a.bookedOn}</td>
+                      <td className="px-4 py-3"><span className={BADGE[a.status]}>{a.status.charAt(0).toUpperCase()+a.status.slice(1)}</span></td>
+                      <td className="px-4 py-3">
+                        <div className="flex items-center gap-2">
+                          <button className="text-blue-400 hover:text-blue-600 text-base" title="View">👁</button>
+                          {(a.status === 'approved' || a.status === 'pending') &&
+                            <button className="text-red-300 hover:text-red-500 text-base" title="Cancel">✕</button>}
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              </div>
+              <div className="px-4 py-3 border-t border-gray-100 flex items-center justify-between">
+                <span className="text-xs text-gray-500">Page 1 of 3 · 24 results</span>
+                <div className="flex gap-2">
+                  <button className="btn-secondary text-xs px-3 py-1.5">← Prev</button>
+                  <button className="btn-secondary text-xs px-3 py-1.5">Next →</button>
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </ClientLayout>

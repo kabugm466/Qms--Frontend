@@ -37,7 +37,8 @@ export default function AdminInstitutions() {
 
         {/* Table */}
         <div className="card overflow-hidden">
-          <table className="w-full text-sm">
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-gray-100 bg-gray-50">
                 <th className="text-left px-4 py-3 text-xs font-medium text-gray-500">Institution</th>
@@ -87,6 +88,7 @@ export default function AdminInstitutions() {
               ))}
             </tbody>
           </table>
+          </div>
           <div className="px-4 py-3 border-t border-gray-100 flex items-center justify-between">
             <span className="text-xs text-gray-500">Showing 6 of 142 institutions</span>
             <div className="flex gap-2">

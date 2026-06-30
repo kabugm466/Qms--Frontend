@@ -114,7 +114,7 @@ export default function ClientProfile() {
 
         {/* ── PERSONAL INFO ── */}
         {activeTab === 'Personal Info' && (
-          <div className="grid grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
             <div className="col-span-2 space-y-5">
               {/* Avatar */}
               <div className="flex items-center gap-4">
@@ -191,7 +191,7 @@ export default function ClientProfile() {
               {/* Account Info */}
               <div className="card p-5">
                 <h3 className="text-sm font-semibold text-gray-800 mb-4">Account Info</h3>
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <div>
                     <div className="text-xs text-gray-400 mb-1">Member since</div>
                     <div className="text-sm font-semibold text-gray-800">June 2024</div>

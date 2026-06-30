@@ -35,7 +35,7 @@ export default function AdminOverview() {
         <h1 className="text-xl font-semibold text-navy mb-5">Platform Overview</h1>
 
         {/* KPI cards */}
-        <div className="grid grid-cols-4 gap-4 mb-6">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 mb-6">
           {kpis.map((k) => (
             <div key={k.label} className={`card p-4 border-l-4 ${k.border}`}>
               <div className="flex items-start justify-between">
@@ -51,9 +51,9 @@ export default function AdminOverview() {
         </div>
 
         {/* Main grid */}
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           {/* Recent registrations */}
-          <div className="col-span-2 card p-4">
+          <div className="lg:col-span-2 card p-4">
             <h2 className="font-semibold text-gray-800 text-sm mb-4">Recent Institution Registrations</h2>
             <div className="space-y-3">
               {recentRegistrations.map((r) => (

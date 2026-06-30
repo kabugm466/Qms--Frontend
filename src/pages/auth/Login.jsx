@@ -50,9 +50,9 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="h-screen flex font-poppins overflow-hidden">
-      {/* Left panel */}
-      <div className="w-[45%] bg-navy flex flex-col items-center justify-center px-10 flex-shrink-0">
+    <div className="min-h-screen md:h-screen flex flex-col md:flex-row font-poppins md:overflow-hidden">
+      {/* Left panel — hidden on mobile, shown on md+ */}
+      <div className="hidden md:flex w-[45%] bg-navy flex-col items-center justify-center px-10 flex-shrink-0">
         <img src="/logo.png" alt="JIPANGE" className="h-20 w-auto mb-5" />
         <div className="space-y-3 w-full max-w-xs mb-8">
           {['No more physical queues','Real-time appointment updates','Book any institution in seconds'].map(f => (
@@ -67,8 +67,13 @@ export default function LoginPage() {
         </div>
       </div>
 
+      {/* Mobile-only compact header */}
+      <div className="md:hidden bg-navy px-6 py-6 flex items-center justify-center">
+        <img src="/logo.png" alt="JIPANGE" className="h-12 w-auto" />
+      </div>
+
       {/* Right panel */}
-      <div className="flex-1 bg-white flex items-center justify-center px-12">
+      <div className="flex-1 bg-white flex items-center justify-center px-6 sm:px-10 md:px-12 py-8 md:py-0">
         <div className="w-full max-w-sm">
           <h1 className="text-2xl font-bold text-navy mb-1">Welcome back</h1>
           <p className="text-gray-500 text-sm mb-7">Sign in to your Jipange account</p>

@@ -49,7 +49,7 @@ export default function InstitutionOverview() {
         </div>
 
         {/* KPI cards */}
-        <div className="grid grid-cols-4 gap-4 mb-5">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 mb-5">
           {[
             { label:"Today's Appointments", value:"18", sub:"+3 from yesterday",   subColor:"text-green-600", icon:"📅", border:"border-l-blue-400" },
             { label:"Completed",            value:"11", sub:"61% completion rate", subColor:"text-gray-400",  icon:"✅", border:"border-l-green-brand" },
@@ -70,14 +70,15 @@ export default function InstitutionOverview() {
         </div>
 
         {/* Main content grid */}
-        <div className="grid grid-cols-3 gap-4 mb-4">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4">
           {/* Today's Queue table */}
           <div className="col-span-2 card p-4">
             <div className="flex items-center justify-between mb-4">
               <h2 className="font-semibold text-gray-800 text-sm">Today's Queue</h2>
               <button className="text-xs text-gray-400 hover:text-gray-600 border border-gray-200 px-2.5 py-1 rounded-lg">Refresh</button>
             </div>
-            <table className="w-full text-sm">
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-gray-100">
                   {["#","Client","Service","Time","Status","Actions"].map(h => (
@@ -105,6 +106,7 @@ export default function InstitutionOverview() {
                 ))}
               </tbody>
             </table>
+            </div>
             <button className="text-green-brand text-xs mt-3 hover:underline" onClick={() => navigate("/institution/appointments")}>
               View all 18 appointments →
             </button>

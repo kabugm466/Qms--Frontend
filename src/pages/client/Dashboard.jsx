@@ -25,7 +25,7 @@ export default function ClientDashboard() {
         </div>
 
         {/* KPI cards */}
-        <div className="grid grid-cols-4 gap-4 mb-5">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 mb-5">
           {[
             { label:'Total Appointments', value:'24', icon:'📅', border:'border-l-blue-500' },
             { label:'Upcoming',           value:'2',  icon:'⏰', border:'border-l-green-brand' },
@@ -45,7 +45,7 @@ export default function ClientDashboard() {
         </div>
 
         {/* Main grid */}
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           {/* Upcoming appointments */}
           <div className="col-span-2 card p-4">
             <h2 className="font-semibold text-gray-800 text-sm mb-4">Upcoming Appointments</h2>

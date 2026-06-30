@@ -93,7 +93,7 @@ export default function AdminAnalytics() {
         </div>
 
         {/* KPI cards — 6 in 2 rows of 3 */}
-        <div className="grid grid-cols-3 gap-4 mb-5">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4 mb-5">
           {[
             { label:'New Users This Month',      value:'284',       sub:'+22% vs last month',    subColor:'text-green-600', icon:'👥', border:'border-l-blue-400'  },
             { label:'New Institutions',           value:'6',         sub:'+2 vs last month',      subColor:'text-green-600', icon:'🏢', border:'border-l-green-brand'},
@@ -248,7 +248,7 @@ export default function AdminAnalytics() {
         {/* Geographic Distribution */}
         <div className="card p-4">
           <h2 className="font-semibold text-gray-800 text-sm mb-4">Geographic Distribution</h2>
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {/* Map placeholder */}
             <div className="col-span-2 bg-gray-100 rounded-xl flex flex-col items-center justify-center h-36 border border-dashed border-gray-200">
               <div className="text-2xl mb-1">🗺</div>

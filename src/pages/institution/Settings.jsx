@@ -37,7 +37,7 @@ function ProfileTab() {
   const set = k => e => setForm(f => ({ ...f, [k]: e.target.value }))
 
   return (
-    <div className="grid grid-cols-3 gap-5">
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
       {/* Form */}
       <div className="col-span-2 card p-5">
         {/* Logo upload */}
@@ -164,7 +164,8 @@ function ServicesTab() {
 
       {/* Services table */}
       <div className="card overflow-hidden">
-        <table className="w-full text-sm">
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
           <thead>
             <tr className="border-b border-gray-100 bg-gray-50">
               {['Service Name', 'Duration', 'Description', 'Status', 'Actions'].map(h => (
@@ -199,6 +200,7 @@ function ServicesTab() {
             ))}
           </tbody>
         </table>
+        </div>
       </div>
 
       {/* Add service form */}
@@ -257,7 +259,8 @@ function BusinessHoursTab() {
   return (
     <div className="max-w-xl space-y-3">
       <div className="card overflow-hidden">
-        <table className="w-full text-sm">
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
           <thead>
             <tr className="border-b border-gray-100 bg-gray-50">
               {['Day', 'Open Time', 'Close Time', 'Status'].map(h => (
@@ -289,6 +292,7 @@ function BusinessHoursTab() {
             ))}
           </tbody>
         </table>
+        </div>
       </div>
 
       <button

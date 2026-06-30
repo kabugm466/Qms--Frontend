@@ -53,7 +53,7 @@ export default function Reports() {
         </div>
 
         {/* KPI cards */}
-        <div className="grid grid-cols-4 gap-4 mb-5">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 mb-5">
           {[
             { label:"Total Appointments", value:"342",   sub:"+12% vs last month",  subColor:"text-green-600", icon:"📅", border:"border-l-blue-400" },
             { label:"Completion Rate",    value:"78%",   sub:"This month",          subColor:"text-gray-400",  icon:"✅", border:"border-l-green-brand" },

@@ -39,7 +39,8 @@ export default function StaffAppointments() {
         </div>
 
         <div className="card overflow-hidden mt-5">
-          <table className="w-full text-sm">
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-gray-100 bg-gray-50">
                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-400">Client</th>
@@ -73,6 +74,7 @@ export default function StaffAppointments() {
               ))}
             </tbody>
           </table>
+          </div>
         </div>
 
         {!allowed && (

@@ -30,7 +30,7 @@ export default function AdminUsers() {
         <h1 className="text-xl font-semibold text-navy mb-5">Users</h1>
 
         {/* KPI chips */}
-        <div className="grid grid-cols-3 gap-4 mb-5">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4 mb-5">
           <div className="card p-4 border-l-4 border-l-blue-500">
             <div className="flex justify-between items-start">
               <div>
@@ -74,7 +74,8 @@ export default function AdminUsers() {
 
         {/* Table */}
         <div className="card overflow-hidden">
-          <table className="w-full text-sm">
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-gray-100 bg-gray-50">
                 <th className="text-left px-4 py-3 text-xs font-medium text-gray-500">Name</th>
@@ -114,6 +115,7 @@ export default function AdminUsers() {
               ))}
             </tbody>
           </table>
+          </div>
           <div className="px-4 py-3 border-t border-gray-100 flex items-center justify-between">
             <span className="text-xs text-gray-500">Showing 6 of 14,820 users</span>
             <div className="flex gap-2">
