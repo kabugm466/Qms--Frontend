@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
+
+const notificationController = require('../controllers/notificationController');
 const { authenticate } = require('../middleware/authenticate');
 
-// TODO: replace with real notifications endpoints (controllers/notificationsController.js).
-// Placeholder so the server boots and the route is reachable during development.
-router.get('/', authenticate, (req, res) => {
-  res.json({ message: 'notifications route not yet implemented' });
-});
+router.get('/', authenticate, notificationController.listMine);
+router.patch('/read-all', authenticate, notificationController.markAllRead);
+router.patch('/:id/read', authenticate, notificationController.markRead);
 
 module.exports = router;
