@@ -1,12 +1,73 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../../context/AuthContext'
+import authApi from '../../utils/authApi'
+import institutionApi from '../../utils/institutionApi'
+
+const ROLE_HOME = {
+  admin: '/admin/overview',
+  institution_admin: '/institution/overview',
+  staff: '/staff/dashboard',
+  client: '/client/dashboard',
+}
 
 export default function RegisterPage() {
   const navigate = useNavigate()
+  const { login } = useAuth()
   const [role, setRole] = useState('client')
-  const [form, setForm] = useState({ name:'', email:'', phone:'', password:'', confirm:'', institutionName:'' })
+  const [form, setForm] = useState({
+    name: '', email: '', phone: '', password: '', confirm: '',
+    institutionName: '', category: 'Hospital',
+  })
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
 
   const set = k => e => setForm(f => ({ ...f, [k]: e.target.value }))
+
+  const handleSubmit = async () => {
+    setError('')
+
+    if (!form.name || !form.email || !form.password) {
+      setError('Please fill in all required fields.')
+      return
+    }
+    if (form.password !== form.confirm) {
+      setError('Passwords do not match.')
+      return
+    }
+    if (role === 'institution' && !form.institutionName) {
+      setError('Please provide your institution name.')
+      return
+    }
+
+    setLoading(true)
+    try {
+      const backendRole = role === 'institution' ? 'institution_admin' : 'client'
+
+      const { user, token } = await authApi.register({
+        fullName: form.name,
+        email: form.email,
+        phone: form.phone,
+        password: form.password,
+        role: backendRole,
+      })
+
+      login({ ...user, name: user.fullName }, token)
+
+      if (backendRole === 'institution_admin') {
+        await institutionApi.create({
+          name: form.institutionName,
+          category: form.category,
+        })
+      }
+
+      navigate(ROLE_HOME[user.role] || '/login')
+    } catch (err) {
+      setError(err.message || 'Something went wrong. Please try again.')
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
     <div className="min-h-screen md:h-screen flex flex-col md:flex-row font-poppins md:overflow-hidden">
@@ -33,6 +94,8 @@ export default function RegisterPage() {
         <div className="w-full max-w-sm py-4 md:py-8">
           <h1 className="text-2xl font-bold text-navy mb-1">Create your account</h1>
           <p className="text-gray-500 text-sm mb-5">Choose your account type to get started</p>
+
+          {error && <div className="bg-red-50 border border-red-200 text-red-600 text-xs rounded-lg px-3 py-2 mb-4">{error}</div>}
 
           {/* Role selector */}
           <div className="grid grid-cols-2 gap-3 mb-5">
@@ -74,7 +137,7 @@ export default function RegisterPage() {
             {role === 'institution' && (
               <div>
                 <label className="block text-xs font-medium text-gray-700 mb-1">Category</label>
-                <select className="input">
+                <select className="input" value={form.category} onChange={set('category')}>
                   {['Hospital','Bank','Government','University','Other'].map(c => <option key={c}>{c}</option>)}
                 </select>
               </div>
@@ -89,7 +152,9 @@ export default function RegisterPage() {
             </div>
           </div>
 
-          <button className="btn-primary w-full py-2.5 text-sm mt-5" onClick={() => navigate('/login')}>Create Account</button>
+          <button disabled={loading} className="btn-primary w-full py-2.5 text-sm mt-5" onClick={handleSubmit}>
+            {loading ? 'Creating account…' : 'Create Account'}
+          </button>
           <p className="text-center text-xs text-gray-500 mt-3">
             Already have an account?{' '}
             <button className="text-green-brand font-medium hover:underline" onClick={() => navigate('/login')}>Sign In</button>

@@ -1,6 +1,14 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
+import authApi from '../../utils/authApi'
+
+const ROLE_HOME = {
+  admin: '/admin/overview',
+  institution_admin: '/institution/overview',
+  staff: '/staff/dashboard',
+  client: '/client/dashboard',
+}
 
 export default function LoginPage() {
   const navigate = useNavigate()
@@ -15,38 +23,16 @@ export default function LoginPage() {
     e.preventDefault()
     setError('')
     setLoading(true)
-    // Demo login — replace with real API call
-    setTimeout(() => {
-      if (email === 'admin@jipange.co.ke') {
-        login({ name:'Super Admin', role:'admin', email }, 'demo-token')
-        navigate('/admin/overview')
-      } else if (email === 'institution@jipange.co.ke') {
-        login({ name:'Dr. Jane Kamau', role:'institution_admin', email, institution:'City General Hospital' }, 'demo-token')
-        navigate('/institution/overview')
-      } else if (email === 'client@jipange.co.ke') {
-        login({ name:'Brian Otieno', role:'client', email }, 'demo-token')
-        navigate('/client/dashboard')
-      } else if (email === 'staff@jipange.co.ke') {
-        login({
-          name:'Nurse Akinyi', role:'staff', email,
-          institution:'City General Hospital',
-          assignedService:'General Consultation',
-          accessLevel:'Manage Appointments',
-        }, 'demo-token')
-        navigate('/staff/dashboard')
-      } else if (email === 'staff-view@jipange.co.ke') {
-        login({
-          name:'Mr. Hassan', role:'staff', email,
-          institution:'City General Hospital',
-          assignedService:'Pharmacy Collection',
-          accessLevel:'View Only',
-        }, 'demo-token')
-        navigate('/staff/dashboard')
-      } else {
-        setError('Invalid email or password. Try: admin@, institution@, staff@, or client@jipange.co.ke')
-      }
+    try {
+      const { user, token } = await authApi.login({ email, password })
+      // Backend returns `fullName`; the rest of the app reads `user.name`.
+      login({ ...user, name: user.fullName }, token)
+      navigate(ROLE_HOME[user.role] || '/login')
+    } catch (err) {
+      setError(err.message || 'Something went wrong. Please try again.')
+    } finally {
       setLoading(false)
-    }, 600)
+    }
   }
 
   return (
@@ -102,28 +88,10 @@ export default function LoginPage() {
             </button>
           </form>
 
-          <div className="flex items-center gap-3 my-4">
-            <div className="flex-1 h-px bg-gray-200" />
-            <span className="text-xs text-gray-400">OR</span>
-            <div className="flex-1 h-px bg-gray-200" />
-          </div>
-
-          <button className="w-full border border-gray-200 rounded-lg py-2.5 text-sm text-gray-600 flex items-center justify-center gap-2 hover:bg-gray-50 transition-colors">
-            <span className="text-blue-500 font-bold text-xs">G</span> Continue with Google
-          </button>
-
           <p className="text-center text-xs text-gray-500 mt-5">
             Don't have an account?{' '}
             <button className="text-green-brand font-medium hover:underline" onClick={() => navigate('/register')}>Register here</button>
           </p>
-
-          <div className="mt-6 p-3 bg-blue-50 rounded-lg text-[11px] text-blue-600">
-            <strong>Demo logins:</strong><br/>
-            admin@jipange.co.ke · institution@jipange.co.ke<br/>
-            staff@jipange.co.ke (manage) · staff-view@jipange.co.ke (view only)<br/>
-            client@jipange.co.ke<br/>
-            (any password)
-          </div>
         </div>
       </div>
     </div>
