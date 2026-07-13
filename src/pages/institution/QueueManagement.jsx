@@ -1,51 +1,40 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import InstitutionLayout from "../../components/layout/InstitutionLayout";
+import appointmentApi from "../../utils/appointmentApi";
 
-const INITIAL_QUEUES = [
-  {
-    service: "General Consultation",
-    room: "Room 1A",
-    nowServing: "Alice Wanjiru",
-    waiting: [
-      { pos: 1, name: "James M.",  eta: "~10 min" },
-      { pos: 2, name: "Grace A.",  eta: "~20 min" },
-      { pos: 3, name: "Tom K.",    eta: "~30 min" },
-    ],
-  },
-  {
-    service: "Lab Test",
-    room: "Lab Block B",
-    nowServing: "Mary Njeri",
-    waiting: [
-      { pos: 1, name: "Peter O.",  eta: "~15 min" },
-      { pos: 2, name: "Susan W.",  eta: "~30 min" },
-    ],
-  },
-  {
-    service: "Pharmacy Collection",
-    room: "Pharmacy",
-    nowServing: "David K.",
-    waiting: [
-      { pos: 1, name: "Faith M.",  eta: "~8 min" },
-    ],
-  },
-];
+function formatTime(timeStr) {
+  if (!timeStr) return ''
+  return new Date(`1970-01-01T${timeStr}`).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })
+}
 
 export default function QueueManagement() {
-  const [queues, setQueues] = useState(INITIAL_QUEUES);
+  const [queues, setQueues] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [callingId, setCallingId] = useState(null);
 
-  const callNext = (serviceIdx) => {
-    setQueues((prev) =>
-      prev.map((q, i) => {
-        if (i !== serviceIdx) return q;
-        const [next, ...rest] = q.waiting;
-        return {
-          ...q,
-          nowServing: next ? next.name : "—",
-          waiting: rest.map((w, idx) => ({ ...w, pos: idx + 1 })),
-        };
-      })
-    );
+  const load = useCallback(() => {
+    setLoading(true);
+    setError("");
+    appointmentApi
+      .getQueue()
+      .then(({ queue }) => setQueues(queue))
+      .catch(err => setError(err.message || "Could not load the queue."))
+      .finally(() => setLoading(false));
+  }, []);
+
+  useEffect(() => { load() }, [load]);
+
+  const callNext = async (appointmentId) => {
+    setCallingId(appointmentId);
+    try {
+      await appointmentApi.callNext(appointmentId);
+      load();
+    } catch (err) {
+      setError(err.message || "Could not call the next appointment.");
+    } finally {
+      setCallingId(null);
+    }
   };
 
   return (
@@ -55,60 +44,74 @@ export default function QueueManagement() {
           <h1 className="text-xl font-semibold text-navy">Queue Management</h1>
           <div className="flex items-center gap-1.5 text-green-brand text-sm font-medium">
             <span className="w-2 h-2 bg-green-brand rounded-full animate-pulse" />
-            Live
+            {loading ? 'Loading…' : "Today's approved bookings"}
           </div>
         </div>
 
+        {error && (
+          <div className="bg-red-50 border border-red-200 text-red-600 text-xs rounded-lg px-3 py-2 mb-4">{error}</div>
+        )}
+
+        {!loading && queues.length === 0 && !error && (
+          <div className="text-sm text-gray-400 text-center py-14">No approved appointments for today yet.</div>
+        )}
+
         {/* Kanban columns */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-          {queues.map((q, idx) => (
-            <div key={q.service} className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-              {/* Column header */}
-              <div className="bg-navy px-4 py-3">
-                <div className="text-white font-semibold text-sm">{q.service}</div>
-                <div className="text-blue-300 text-xs mt-0.5">{q.room}</div>
-              </div>
-
-              {/* Now serving */}
-              <div className="p-4 border-b border-gray-100 bg-green-50">
-                <div className="text-[10px] font-semibold text-green-700 uppercase tracking-wider mb-1">
-                  Now Serving
+          {queues.map((q) => {
+            const [nowServing, ...rest] = q.waiting;
+            return (
+              <div key={q.serviceId} className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                {/* Column header */}
+                <div className="bg-navy px-4 py-3">
+                  <div className="text-white font-semibold text-sm">{q.serviceName}</div>
                 </div>
-                <div className="text-base font-bold text-gray-900 mb-2">{q.nowServing}</div>
-                <button
-                  onClick={() => callNext(idx)}
-                  className="btn-primary text-xs px-3 py-1.5"
-                  disabled={q.waiting.length === 0}
-                >
-                  Call Next →
-                </button>
-              </div>
 
-              {/* Waiting list */}
-              <div className="p-4">
-                <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
-                  Waiting ({q.waiting.length})
-                </div>
-                {q.waiting.length === 0 ? (
-                  <div className="text-xs text-gray-400 italic">No one waiting</div>
-                ) : (
-                  <div className="space-y-2">
-                    {q.waiting.map((w) => (
-                      <div key={w.pos} className="flex items-center justify-between py-1.5 border-b border-gray-50 last:border-0">
-                        <div className="flex items-center gap-2.5">
-                          <span className="w-5 h-5 rounded-full bg-gray-100 text-gray-600 text-[10px] font-bold flex items-center justify-center flex-shrink-0">
-                            {w.pos}
-                          </span>
-                          <span className="text-sm text-gray-800">{w.name}</span>
-                        </div>
-                        <span className="text-xs text-gray-400">{w.eta}</span>
-                      </div>
-                    ))}
+                {/* Now serving */}
+                <div className="p-4 border-b border-gray-100 bg-green-50">
+                  <div className="text-[10px] font-semibold text-green-700 uppercase tracking-wider mb-1">
+                    Now Serving
                   </div>
-                )}
+                  <div className="text-base font-bold text-gray-900 mb-2">
+                    {nowServing ? nowServing.clientName : '—'}
+                  </div>
+                  {nowServing && (
+                    <button
+                      onClick={() => callNext(nowServing.id)}
+                      className="btn-primary text-xs px-3 py-1.5 disabled:opacity-50"
+                      disabled={callingId === nowServing.id}
+                    >
+                      {callingId === nowServing.id ? 'Calling…' : 'Call Next →'}
+                    </button>
+                  )}
+                </div>
+
+                {/* Waiting list */}
+                <div className="p-4">
+                  <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+                    Waiting ({rest.length})
+                  </div>
+                  {rest.length === 0 ? (
+                    <div className="text-xs text-gray-400 italic">No one waiting</div>
+                  ) : (
+                    <div className="space-y-2">
+                      {rest.map((w, i) => (
+                        <div key={w.id} className="flex items-center justify-between py-1.5 border-b border-gray-50 last:border-0">
+                          <div className="flex items-center gap-2.5">
+                            <span className="w-5 h-5 rounded-full bg-gray-100 text-gray-600 text-[10px] font-bold flex items-center justify-center flex-shrink-0">
+                              {i + 1}
+                            </span>
+                            <span className="text-sm text-gray-800">{w.clientName}</span>
+                          </div>
+                          <span className="text-xs text-gray-400">{formatTime(w.appointmentTime)}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </InstitutionLayout>
